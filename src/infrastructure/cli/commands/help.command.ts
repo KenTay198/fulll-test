@@ -1,4 +1,4 @@
-export const helpCommand = async () => {
+export const helpCommand = () => {
   console.log("Available commands :");
   console.log(
     `

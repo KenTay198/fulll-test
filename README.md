@@ -9,15 +9,15 @@
 ### INSTALLATION
 
 - Clone this repository
-- Install dependencies (via npm install)
-- Start docker-compose : `docker-compose up -d"
+- Install dependencies : `npm install`
+- Start docker-compose : `docker-compose up -d`
 
 ### ENVIRONMENT VARIABLES
 
 - Create the following .env file at the root of the project :
 
 ```
-MONGODB_URI="mongodb://admin:admin@mongodb:27017"
+MONGODB_URI="mongodb://admin:admin@localhost:27017"
 ```
 
 ### COMMANDS

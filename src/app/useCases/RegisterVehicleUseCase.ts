@@ -12,13 +12,13 @@ export class RegisterVehicleUseCase {
 
   async execute(params: RegisterVehicleParams) {
     const { fleetId, type, plateNumber } = params;
-    
+
     const fleet = await this.fleetRepository.getFleetByID(fleetId);
     if (!fleet) throw new Error("No fleet has been found.");
 
     const vehicle = new Vehicle(type, plateNumber);
     fleet.registerVehicle(vehicle);
 
-    return this.fleetRepository.updateVehicles(fleetId, fleet.getVehicles());
+    this.fleetRepository.updateVehicles(fleetId, fleet.getVehicles());
   }
 }

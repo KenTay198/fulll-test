@@ -1,5 +1,5 @@
 import { describe, expect, test } from "@jest/globals";
-import { Vehicle } from "../../../src/domain/vehicle/Vehicle.js";
+import { Vehicle, VehicleDummy } from "../../../src/domain/vehicle/Vehicle.js";
 import { Location } from "../../../src/domain/vehicle/Location.js";
 
 describe("a vehicle", () => {
@@ -24,8 +24,17 @@ describe("a vehicle", () => {
     expect(vehicle.getLocation()?.isSameLocationAs(location)).toBe(true);
   });
 
+  test("can park elsewhere", () => {
+    const vehicle = new VehicleDummy();
+    const location = new Location(50, 50, 12);
+    vehicle.park(location);
+    const newLocation = new Location(50, 32, 98);
+    vehicle.park(newLocation);
+    expect(vehicle.getLocation()?.isSameLocationAs(newLocation)).toBe(true);
+  });
+
   test("cannot park twice in a row at the same location", () => {
-    const vehicle = new Vehicle("car", "XYZ-012");
+    const vehicle = new VehicleDummy();
     const location = new Location(50, 50, 12);
     vehicle.park(location);
     const twicePark = async () => vehicle.park(location);

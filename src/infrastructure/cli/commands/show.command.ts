@@ -6,6 +6,7 @@ export const showCommand = async (
   args: any[]
 ) => {
   const [fleetId] = args;
+  if(fleetId === undefined) return console.log("Please set your fleet ID.")
   const fleet = await new GetFleetByIDUseCase(repository).execute({
     fleetId,
   });

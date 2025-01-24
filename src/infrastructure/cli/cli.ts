@@ -24,21 +24,20 @@ rl.on("line", async (line) => {
   try {
     switch (command) {
       case "show":
-        showCommand(repository, args);
+        await showCommand(repository, args);
         break;
       case "list":
-        listCommand(repository, args);
+        await listCommand(repository, args);
         break;
       case "create":
-        createCommand(repository, args);
+        await createCommand(repository, args);
         break;
       case "register-vehicle":
-        registerVehicleCommand(repository, args);
+        await registerVehicleCommand(repository, args);
         break;
       case "park":
-        parkCommand(repository, args);
+        await parkCommand(repository, args);
         break;
-
       case "exit":
         console.log("Exiting Fleet CLI...");
         rl.close();
@@ -52,7 +51,7 @@ rl.on("line", async (line) => {
         );
     }
   } catch (error: any) {
-    const errorMessage = typeof error === "string" ? error : error.message;
+    const errorMessage = error.message || error.toString();
     console.error(`Error : ${errorMessage}`);
   }
 

@@ -35,6 +35,6 @@ export class ParkVehicleUseCase {
     if (!matchingVehicle) throw new Error("This vehicle is not in this fleet.");
 
     matchingVehicle.park(location);
-    return this.fleetRepository.localizeVehicle(fleetId, plateNumber, location);
+    this.fleetRepository.localizeVehicle(fleetId, plateNumber, location);
   }
 }

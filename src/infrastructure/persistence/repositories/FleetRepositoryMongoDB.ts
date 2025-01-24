@@ -48,7 +48,7 @@ export class FleetRepositoryDB implements IFleetRepository {
             resolve(res.map((e) => this.formatFleet(e)));
           })
           .catch(reject);
-      });
+      }).catch(reject);
     });
 
   public getFleetByID: GetFleetByID = async (fleetId) =>
@@ -61,7 +61,7 @@ export class FleetRepositoryDB implements IFleetRepository {
             resolve(this.formatFleet(res));
           })
           .catch(reject);
-      });
+      }).catch(reject);
     });
 
   public createFleet: CreateFleet = async (userId) =>
@@ -74,7 +74,7 @@ export class FleetRepositoryDB implements IFleetRepository {
             resolve(new Fleet(userId, res._id));
           })
           .catch(reject);
-      });
+      }).catch(reject);
     });
 
   public updateVehicles: UpdateVehicles = async (fleetId, vehicle) =>
@@ -83,7 +83,7 @@ export class FleetRepositoryDB implements IFleetRepository {
         FleetModel.updateOne({ _id: fleetId }, { $push: { vehicles: vehicle } })
           .then(() => resolve())
           .catch(reject);
-      });
+      }).catch(reject);
     });
 
   public localizeVehicle: LocalizeVehicle = async (
@@ -106,6 +106,6 @@ export class FleetRepositoryDB implements IFleetRepository {
             resolve();
           })
           .catch(reject);
-      });
+      }).catch(reject);
     });
 }

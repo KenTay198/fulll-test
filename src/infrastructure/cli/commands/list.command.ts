@@ -6,8 +6,9 @@ export const listCommand = async (
   args: any[]
 ) => {
   const [userId] = args;
-  const fleet = await new GetFleetsByUserIDUseCase(repository).execute({
+  if(userId === undefined) return console.log("Please set your user ID.")
+  const fleets = await new GetFleetsByUserIDUseCase(repository).execute({
     userId,
   });
-  console.log(fleet || "No fleet has been found for this user.");
+  console.log(!fleets || fleets.length === 0 ? "This user has no fleets." : fleets);
 };
