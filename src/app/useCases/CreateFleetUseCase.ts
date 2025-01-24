@@ -8,12 +8,8 @@ export class CreateFleetUseCase {
   constructor(private readonly fleetRepository: IFleetRepository) {}
 
   async execute(params: CreateFleetParams) {
-    return new Promise<string>((resolve, reject) => {
-      const { userId } = params;
-      this.fleetRepository
-        .createFleet(userId)
-        .then((fleet) => resolve(fleet.getFleetID()))
-        .catch(reject);
-    });
+    const { userId } = params;
+    const fleet = await this.fleetRepository.createFleet(userId);
+    return fleet.getFleetID();
   }
 }
