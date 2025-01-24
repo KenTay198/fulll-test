@@ -1,6 +1,7 @@
 # FULLL TECHNICAL TEST
 
 ## ALGO FIZZBUZZ
+
 - to start : `node algo-fizzbuzz.js`
 
 ## BACKEND
@@ -9,13 +10,14 @@
 
 - Clone this repository
 - Install dependencies (via npm install)
+- Start docker-compose : `docker-compose up -d"
 
 ### ENVIRONMENT VARIABLES
 
 - Create the following .env file at the root of the project :
 
 ```
-MONGODB_URI="mongodb+srv://fulll:X2WEpzZETiDSjits@vehicle-app.hhtrk.mongodb.net/"
+MONGODB_URI="mongodb://admin:admin@mongodb:27017"
 ```
 
 ### COMMANDS

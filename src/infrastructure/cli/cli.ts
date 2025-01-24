@@ -1,11 +1,11 @@
 import readline from "readline";
-import { CreateFleetUseCase } from "../../app/useCases/CreateFleetUseCase";
-import { RegisterVehicleUseCase } from "../../app/useCases/RegisterVehicleUseCase";
-import { VehicleType } from "../../domain/vehicle/Vehicle";
-import { ParkVehicleUseCase } from "../../app/useCases/ParkVehicleUseCase";
-import { GetFleetByIDUseCase } from "../../app/useCases/GetFleetByIDUseCase";
-import { GetFleetsByUserIDUseCase } from "../../app/useCases/GetFleetsByUserIDUseCase";
 import { FleetRepositoryDB } from "../persistence/repositories/FleetRepositoryMongoDB";
+import { showCommand } from "./commands/show.command";
+import { listCommand } from "./commands/list.command";
+import { createCommand } from "./commands/create.command";
+import { registerVehicleCommand } from "./commands/register-vehicle.command";
+import { parkCommand } from "./commands/park.command";
+import { helpCommand } from "./commands/help.command";
 
 const repository = new FleetRepositoryDB();
 
@@ -23,89 +23,28 @@ rl.on("line", async (line) => {
 
   try {
     switch (command) {
-      case "show": {
-        const [fleetId] = args;
-        const fleet = await new GetFleetByIDUseCase(repository).execute({
-          fleetId,
-        });
-        console.log(fleet || "No fleet has been found with this ID.");
+      case "show":
+        showCommand(repository, args);
         break;
-      }
-      case "list": {
-        const [userId] = args;
-        const fleet = await new GetFleetsByUserIDUseCase(repository).execute({
-          userId,
-        });
-        console.log(fleet || "No fleet has been found for this user.");
+      case "list":
+        listCommand(repository, args);
         break;
-      }
-      case "create": {
-        const [userId] = args;
-        if (!userId) return console.log("Please set your userId.");
-        const fleetId = await new CreateFleetUseCase(repository).execute({
-          userId,
-        });
-        console.log("Here is your fleet ID : " + fleetId);
+      case "create":
+        createCommand(repository, args);
         break;
-      }
-      case "register-vehicle": {
-        const [fleetId, type, plateNumber] = args;
-        if (!fleetId) return console.log("Please set your fleetId.");
-        if (!type)
-          return console.log(
-            "Please set the vehicle type (car | truck | motocycle)."
-          );
-        if (!plateNumber)
-          return console.log("Please set the vehicle plateNumber.");
-        await new RegisterVehicleUseCase(repository).execute({
-          fleetId,
-          type: type as VehicleType,
-          plateNumber,
-        });
-        console.log("Your vehicle has been registered !");
+      case "register-vehicle":
+        registerVehicleCommand(repository, args);
         break;
-      }
-      case "park": {
-        const [fleetId, plateNumber, lat, lon, alt] = args;
-        if (!fleetId) return console.log("Please set your fleetId.");
-        if (!lat || !lon)
-          return console.log("Please set the vehicle coordinates.");
-        if (!plateNumber)
-          return console.log("Please set the vehicle plateNumber.");
-        await new ParkVehicleUseCase(repository).execute({
-          fleetId,
-          plateNumber,
-          lat,
-          lon,
-          alt,
-        });
-        console.log("Your vehicle has been parked !");
+      case "park":
+        parkCommand(repository, args);
         break;
-      }
+
       case "exit":
         console.log("Exiting Fleet CLI...");
         rl.close();
         break;
       case "help":
-        console.log("Available commands:");
-        console.log(
-          "  create <userId>                                                        - Create a new fleet for this user"
-        );
-        console.log(
-          "  list <userId>                                                          - Show fleets by user"
-        );
-        console.log(
-          "  show <fleetId>                                                         - Show a fleet"
-        );
-        console.log(
-          "  register-vehicle <fleetId> <type (car|truck|motocycle)> <plateNumber>  - Register a new vehicle"
-        );
-        console.log(
-          "  park <fleetId> <plateNumber> lat lon [alt]                  - Park a vehicle at a location"
-        );
-        console.log(
-          "  exit                                                                   - Exit Fleet CLI"
-        );
+        helpCommand();
         break;
       default:
         console.log(
